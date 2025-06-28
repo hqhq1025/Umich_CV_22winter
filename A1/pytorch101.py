@@ -357,7 +357,7 @@ def make_one_hot(x: List[int]) -> Tensor:
     #                      TODO: Implement this function                     #
     ##########################################################################
     # Replace "pass" statement with your code
-    pass
+    y = torch.nn.functional.one_hot(torch.tensor(x))
     ##########################################################################
     #                            END OF YOUR CODE                            #
     ##########################################################################
@@ -394,7 +394,8 @@ def sum_positive_entries(x: Tensor) -> Tensor:
     #                      TODO: Implement this function                     #
     ##########################################################################
     # Replace "pass" statement with your code
-    pass
+    x[x<0] = 0
+    pos_sum = torch.sum(x)
     ##########################################################################
     #                            END OF YOUR CODE                            #
     ##########################################################################
@@ -425,7 +426,9 @@ def reshape_practice(x: Tensor) -> Tensor:
     #                      TODO: Implement this function                     #
     ##########################################################################
     # Replace "pass" statement with your code
-    pass
+    y = x.view(2,3,4)
+    y = y.transpose(0,1)
+    y = y.contiguous().view(3,8)
     ##########################################################################
     #                            END OF YOUR CODE                            #
     ##########################################################################
@@ -464,7 +467,10 @@ def zero_row_min(x: Tensor) -> Tensor:
     #                      TODO: Implement this function                     #
     ##########################################################################
     # Replace "pass" statement with your code
-    pass
+    y = x.clone()
+    _, min_indices = x.min(dim=1)
+    row_indices = torch.arange(x.size(0))
+    y[row_indices, min_indices] = 0
     ##########################################################################
     #                            END OF YOUR CODE                            #
     ##########################################################################
@@ -520,7 +526,13 @@ def batched_matrix_multiply_loop(x: Tensor, y: Tensor) -> Tensor:
     #                      TODO: Implement this function                      #
     ###########################################################################
     # Replace "pass" statement with your code
-    pass
+    B = x.shape[0]
+    N = x.shape[1]
+    M = x.shape[2]
+    P = y.shape[2]
+    z = torch.empty((B, N, P), dtype=x.dtype)
+    for i in range(B):
+        z[i] = torch.mm(x[i], y[i])
     ###########################################################################
     #                           END OF YOUR CODE                              #
     ###########################################################################
@@ -551,7 +563,7 @@ def batched_matrix_multiply_noloop(x: Tensor, y: Tensor) -> Tensor:
     #                      TODO: Implement this function                      #
     ###########################################################################
     # Replace "pass" statement with your code
-    pass
+    z = torch.bmm(x, y)
     ###########################################################################
     #                            END OF YOUR CODE                             #
     ###########################################################################
